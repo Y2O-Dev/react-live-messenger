@@ -1,0 +1,31 @@
+services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  client:
+    build:
+      context: .
+      dockerfile: packages/client/Dockerfile
+    ports:
+      - "4005:4005"
+    environment:
+      - REACT_APP_SERVER_URL=client
+
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: packages/server/Dockerfile
+  #   ports:
+  #     - "4000:4000"
+  #   environment:
+  #     - REDIS_HOST=redis
+  #     - DATABASE_URL=postgres://postgres:helloworld@db:5432/postgres
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=helloworld
